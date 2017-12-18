@@ -13,25 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package android.example.com.simpleasynctask;
+package android.example.com.simpleasynctask
 
-import android.os.AsyncTask;
-import android.widget.TextView;
+import android.os.AsyncTask
+import android.widget.TextView
 
-import java.util.Random;
+import java.util.Random
 
 /**
  * Performs a very simple background task, in this case, just sleeps!
  */
-class SimpleAsyncTask extends AsyncTask<Void, Void, String> {
-
-    // The TextView where we will show results
-    private TextView mTextView;
-
-    // Constructor that provides a reference to the TextView from the MainActivity
-    public SimpleAsyncTask(TextView tv) {
-        mTextView = tv;
-    }
+internal class SimpleAsyncTask// Constructor that provides a reference to the TextView from the MainActivity
+(// The TextView where we will show results
+        private val textView: TextView) : AsyncTask<Void, Void, String>() {
 
     /**
      * Runs on the background thread.
@@ -40,35 +34,33 @@ class SimpleAsyncTask extends AsyncTask<Void, Void, String> {
      * @return Returns the string including the amount of time that
      * the background thread slept.
      */
-    @Override
-    protected String doInBackground(Void... voids) {
+    override fun doInBackground(vararg voids: Void): String {
 
         // Generate a random number between 0 and 10
-        Random r = new Random();
-        int n = r.nextInt(11);
+        val r = Random()
+        val n = r.nextInt(11)
 
         // Make the task take long enough that we have
         // time to rotate the phone while it is running
-        int s = n * 200;
+        val s = n * 200
 
         // Sleep for the random amount of time
         try {
-            Thread.sleep(s);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.sleep(s.toLong())
+        } catch (e: InterruptedException) {
+            e.printStackTrace()
         }
 
         // Return a String result
-        return "Awake at last after sleeping for " + s + " milliseconds!";
+        return "Awake at last after sleeping for $s milliseconds!"
     }
-
 
 
     /**
      * Does something with the result on the UI thread; in this case
      * updates the TextView.
      */
-    protected void onPostExecute(String result) {
-        mTextView.setText(result);
+    override fun onPostExecute(result: String) {
+        textView.text = result
     }
 }
