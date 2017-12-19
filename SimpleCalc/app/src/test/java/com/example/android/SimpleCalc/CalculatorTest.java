@@ -16,16 +16,15 @@
 
 package com.example.android.SimpleCalc;
 
+import android.test.suitebuilder.annotation.SmallTest;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import android.test.suitebuilder.annotation.SmallTest;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.closeTo;
-
 import static org.junit.Assert.assertThat;
 
 /**
