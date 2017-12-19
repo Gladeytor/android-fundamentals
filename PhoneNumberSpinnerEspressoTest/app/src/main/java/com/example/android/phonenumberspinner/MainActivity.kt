@@ -15,17 +15,14 @@
  */
 
 
-package com.example.android.phonenumberspinner;
+package com.example.android.phonenumberspinner
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import android.util.Log
+import android.view.View
+import android.widget.*
+import kotlinx.android.synthetic.main.activity_main.*
 
 /**
  * This app is a copy of KeyboardSamples that
@@ -33,35 +30,30 @@ import android.widget.TextView;
  * The spinner lets the user choose the type of phone number:
  * Home, Work, Mobile, and Other.
  */
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    // Define TAG for logging.
-    private static final String TAG = MainActivity.class.getSimpleName();
+class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     // Define mSpinnerLabel for the label (the spinner item that the user chooses).
-    private String mSpinnerLabel = "";
+    private var mSpinnerLabel = ""
 
     /**
      * Set the content view, create the spinner, and create the array adapter for the spinner.
      * @param savedInstanceState    Saved instance.
      */
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
         // Create the spinner.
-        Spinner spinner = (Spinner) findViewById(R.id.label_spinner);
-        if (spinner != null) spinner.setOnItemSelectedListener(this);
+        if (label_spinner != null) label_spinner.onItemSelectedListener = this
 
         // Create ArrayAdapter using the string array and default spinner layout.
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.labels_array, android.R.layout.simple_spinner_item);
+        val adapter = ArrayAdapter.createFromResource(this,
+                R.array.labels_array, android.R.layout.simple_spinner_item)
 
         // Specify the layout to use when the list of choices appears.
-        adapter.setDropDownViewResource
-                (android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
         // Apply the adapter to the spinner.
-        if (spinner != null) spinner.setAdapter(adapter);
+        if (label_spinner != null) label_spinner.adapter = adapter
 
     }
 
@@ -69,15 +61,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
      * Retrieves the text and spinner item and shows them in text_phonelabel.
      * @param view  The view containing editText_main.
      */
-    public void showText(View view) {
-        EditText editText = (EditText) findViewById(R.id.editText_main);
-        if (editText != null) {
+    fun showText(view: View) {
+        if (editText_main != null) {
             // Assign to showString both the entered string and mSpinnerLabel.
-            String showString = (editText.getText().toString() + " - " + mSpinnerLabel);
+            val showString = editText_main.text.toString() + " - " + mSpinnerLabel
             // Assign to phoneNumberResult the view for text_phonelabel to prepare to show it.
-            TextView phoneNumberResult = (TextView) findViewById(R.id.text_phonelabel);
             // Show the showString in the phoneNumberResult.
-            if (phoneNumberResult != null) phoneNumberResult.setText(showString);
+            if (text_phonelabel != null) text_phonelabel.text = showString
         }
     }
 
@@ -89,19 +79,22 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
      * @param pos             The position of the view in the adapter.
      * @param id             The row id of the item that is selected (not used here).
      */
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
-        mSpinnerLabel = adapterView.getItemAtPosition(pos).toString();
+    override fun onItemSelected(adapterView: AdapterView<*>, view: View, pos: Int, id: Long) {
+        mSpinnerLabel = adapterView.getItemAtPosition(pos).toString()
     }
 
     /**
      * Logs the fact that nothing was selected in the spinner.
      * @param adapterView   The adapter for the spinner, where the selection should have occurred.
      */
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-        Log.d(TAG, getString(R.string.nothing_selected));
+    override fun onNothingSelected(adapterView: AdapterView<*>) {
+        Log.d(TAG, getString(R.string.nothing_selected))
 
+    }
+
+    companion object {
+        // Define TAG for logging.
+        private val TAG = MainActivity::class.java.simpleName
     }
 
 }
