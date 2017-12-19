@@ -17,20 +17,16 @@ package com.example.android.twoactivities
 
 import android.app.Activity
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.view.View
-import android.widget.EditText
-import android.widget.TextView
+import kotlinx.android.synthetic.main.activity_second.*
 
 /**
  * SecondActivity defines the second activity in the app. It is launched from an intent
  * with a message, and sends an intent back with a second message.
  */
 class SecondActivity : AppCompatActivity() {
-
-    // EditText for the reply.
-    private var mReply: EditText? = null
 
     /**
      * Initializes the activity.
@@ -41,19 +37,13 @@ class SecondActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
 
-        // Initialize view variables.
-        mReply = findViewById<View>(R.id.editText_second) as EditText
-
         // Get the intent that launched this activity, and the message in
         // the intent extra.
         val intent = intent
         val message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE)
 
         // Put that message into the text_message TextView
-        val textView = findViewById<View>(R.id.text_message) as TextView
-        if (textView != null) {
-            textView.text = message
-        }
+            text_message.text = message
     }
 
     /**
@@ -64,7 +54,7 @@ class SecondActivity : AppCompatActivity() {
      */
     fun returnReply(view: View) {
         // Get the reply message from the edit text.
-        val reply = mReply!!.text.toString()
+        val reply = editText_second!!.text.toString()
 
         // Create a new intent for the reply, add the reply message to it as an extra,
         // set the intent result, and close the activity.
