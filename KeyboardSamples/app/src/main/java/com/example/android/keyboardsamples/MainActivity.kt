@@ -14,24 +14,23 @@
  * limitations under the License.
  */
 
-package com.example.android.keyboardsamples;
+package com.example.android.keyboardsamples
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import android.view.View
+import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_main.*
 
 /**
  * Displays the entered text in a toast message.
  * This app is designed to show different keyboards when entering text.
  */
-public class MainActivity extends AppCompatActivity {
+class MainActivity : AppCompatActivity() {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
     }
 
@@ -39,14 +38,12 @@ public class MainActivity extends AppCompatActivity {
      * Shows the text entered into editText_main in a Toast message.
      * @param view  View with editText_main.
      */
-    public void showText(View view) {
-        // Associate editText with the editText_main EditText element.
-        EditText editText = (EditText) findViewById(R.id.editText_main);
-        if (editText != null) {
+    fun showText(view: View) {
+        if (editText_main != null) {
             // Assign showString to the text that was entered.
-            String showString = editText.getText().toString();
+            val showString = editText_main.text.toString()
             // Make the Toast message with showString.
-            Toast.makeText(this, showString, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, showString, Toast.LENGTH_SHORT).show()
         }
     }
 }
