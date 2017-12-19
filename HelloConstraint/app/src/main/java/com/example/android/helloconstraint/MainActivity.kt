@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.example.android.helloconstraint;
+package com.example.android.helloconstraint
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import android.view.View
+import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_main.*
 
 /**
  * Displays two buttons and a text view.
@@ -30,40 +30,35 @@ import android.widget.Toast;
  * Note: Fixing behavior when device is rotated is a challenge exercise for the student.
  */
 
-public class MainActivity extends AppCompatActivity {
+class MainActivity : AppCompatActivity() {
 
-    private int mCount = 0;
-    private TextView mShowCount;
+    private var count = 0
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        mShowCount = (TextView) findViewById(R.id.show_count);
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
     }
 
-    /**
+    /*
     * Increments the number in the text view when the COUNT button is clicked.
     *
     * @param view The view that triggered this onClick handler.
-    * Since the count always appears in the text view, the passed in view is not used.
-    */
-    public void countUp(View view) {
-        mCount++;
-        if (mShowCount != null)
-            mShowCount.setText(Integer.toString(mCount));
+    *             Since the count always appears in the text view, the passed in view is not used.
+    * */
+    fun countUp(view: View) {
+        count++
+        if (show_count != null)
+            show_count!!.text = Integer.toString(count)
     }
 
-    /**
+    /*
     * Shows a toast when the TOAST button is clicked.
     *
     * @param view The view that triggered this onClick handler.
-    * Since a toast always shows on the top, the passed in view is not used.
-    */
-    public void showToast(View view) {
-        int duration = Toast.LENGTH_LONG;
-
-        Toast toast = Toast.makeText(this, R.string.toast_button_toast, duration);
-        toast.show();
+    *             Since a toast always shows on the top, the passed in view is not used.
+    * */
+    fun showToast(view: View) {
+        val toast = Toast.makeText(this, R.string.toast_button_toast, Toast.LENGTH_LONG)
+        toast.show()
     }
 }
