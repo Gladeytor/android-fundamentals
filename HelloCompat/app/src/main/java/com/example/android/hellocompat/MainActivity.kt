@@ -13,61 +13,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.hellocompat;
+package com.example.android.hellocompat
 
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
-import java.util.Random;
+import android.os.Bundle
+import android.support.v4.content.ContextCompat
+import android.support.v7.app.AppCompatActivity
+import android.view.View
+import android.widget.TextView
+import java.util.*
 
 /**
  * HelloCompat demonstrates the use of the ContextCompat class, part of the
  * V4 support library, to help demonstrate why the support libraries are useful.
  */
-public class MainActivity extends AppCompatActivity {
+class MainActivity : AppCompatActivity() {
     // Text view for Hello World.
-    private TextView mHelloTextView;
+    private var mHelloTextView: TextView? = null
 
     // array of color names, these match the color resources in color.xml
-    private String[] mColorArray = {"red",
-            "pink",
-            "purple",
-            "deep_purple",
-            "indigo",
-            "blue",
-            "light_blue",
-            "cyan",
-            "teal",
-            "green",
-            "light_green",
-            "lime",
-            "yellow",
-            "amber",
-            "orange",
-            "deep_orange",
-            "brown",
-            "grey",
-            "blue_grey",
-            "black" };
+    private val mColorArray = arrayOf("red", "pink", "purple", "deep_purple", "indigo", "blue", "light_blue", "cyan", "teal", "green", "light_green", "lime", "yellow", "amber", "orange", "deep_orange", "brown", "grey", "blue_grey", "black")
 
     /**
      * Initializes the activity.
      *
      * @param savedInstanceState The current state data.
      */
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
         // Initialize the main text view
-        mHelloTextView = (TextView) findViewById(R.id.hello_textview);
+        mHelloTextView = findViewById<View>(R.id.hello_textview) as TextView
 
         // Restore saved instance state (the text color)
         if (savedInstanceState != null) {
-            mHelloTextView.setTextColor(savedInstanceState.getInt("color"));
+            mHelloTextView!!.setTextColor(savedInstanceState.getInt("color"))
         }
     }
 
@@ -78,14 +58,14 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param view The view (Button) that was clicked.
      */
-    public void changeColor(View view) {
+    fun changeColor(view: View) {
         // get a random color name from the color array (20 colors)
-        Random random = new Random();
-        String colorName = mColorArray[random.nextInt(20)];
+        val random = Random()
+        val colorName = mColorArray[random.nextInt(20)]
 
         // get the color identifier that matches the color name
-        int colorResourceName = getResources().getIdentifier(colorName,
-                "color", getApplicationContext().getPackageName());
+        val colorResourceName = resources.getIdentifier(colorName,
+                "color", applicationContext.packageName)
 
         // get the color ID from the resources
         // The pre API 23 way
@@ -93,10 +73,10 @@ public class MainActivity extends AppCompatActivity {
         // The post API way
         // int colorRes = getResources().getColor(colorResourceName, this.getTheme());
         // Compatible way
-        int colorRes = ContextCompat.getColor(this, colorResourceName);
+        val colorRes = ContextCompat.getColor(this, colorResourceName)
 
         // Set the text color
-        mHelloTextView.setTextColor(colorRes);
+        mHelloTextView!!.setTextColor(colorRes)
     }
 
     /**
@@ -105,11 +85,10 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param outState The state data.
      */
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
+    public override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
 
         // save the current text color
-        outState.putInt("color", mHelloTextView.getCurrentTextColor());
+        outState!!.putInt("color", mHelloTextView!!.currentTextColor)
     }
 }
