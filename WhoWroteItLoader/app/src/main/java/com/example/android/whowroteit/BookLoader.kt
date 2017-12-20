@@ -13,33 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.whowroteit;
+package com.example.android.whowroteit
 
 
-import android.content.Context;
-import android.support.v4.content.AsyncTaskLoader;
+import android.content.Context
+import android.support.v4.content.AsyncTaskLoader
 
 /**
  * AsyncTaskLoader implementation that opens a network connection and
  * query's the Book Service API.
  */
-public class BookLoader extends AsyncTaskLoader<String> {
-
-    // Variable that stores the search string.
-    private String mQueryString;
-
-    // Constructor providing a reference to the search term.
-    public BookLoader(Context context, String queryString) {
-        super(context);
-        mQueryString = queryString;
-    }
+class BookLoader// Constructor providing a reference to the search term.
+(context: Context, // Variable that stores the search string.
+ private val mQueryString: String) : AsyncTaskLoader<String>(context) {
 
     /**
      * This method is invoked by the LoaderManager whenever the loader is started
      */
-    @Override
-    protected void onStartLoading() {
-        forceLoad(); // Starts the loadInBackground method
+    override fun onStartLoading() {
+        forceLoad() // Starts the loadInBackground method
     }
 
     /**
@@ -47,9 +39,8 @@ public class BookLoader extends AsyncTaskLoader<String> {
      *
      * @return Returns the raw JSON response from the API call.
      */
-    @Override
-    public String loadInBackground() {
-        return NetworkUtils.getBookInfo(mQueryString);
+    override fun loadInBackground(): String? {
+        return NetworkUtils.getBookInfo(mQueryString)
     }
 }
 
