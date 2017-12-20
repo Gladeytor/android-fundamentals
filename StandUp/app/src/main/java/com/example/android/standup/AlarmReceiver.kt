@@ -13,45 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.standup;
+package com.example.android.standup
 
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.support.v4.app.NotificationCompat;
-
-public class AlarmReceiver extends BroadcastReceiver {
-
-    private static final int NOTIFICATION_ID = 0;
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.support.v4.app.NotificationCompat
 
 
-    public AlarmReceiver() {
-    }
+class AlarmReceiver : BroadcastReceiver() {
 
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        NotificationManager notificationManager = (NotificationManager)
-                context.getSystemService(Context.NOTIFICATION_SERVICE);
+    override fun onReceive(context: Context, intent: Intent) {
+        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         //Create the content intent for the notification, which launches this activity
-        Intent contentIntent = new Intent(context, MainActivity.class);
-        PendingIntent contentPendingIntent = PendingIntent.getActivity
-                (context, NOTIFICATION_ID, contentIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        val contentIntent = Intent(context, MainActivity::class.java)
+        val contentPendingIntent = PendingIntent.getActivity(context, NOTIFICATION_ID, contentIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         //Build the notification
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
+        val builder = NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_stand_up)
                 .setContentTitle(context.getString(R.string.notification_title))
                 .setContentText(context.getString(R.string.notification_text))
                 .setContentIntent(contentPendingIntent)
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setDefaults(NotificationCompat.DEFAULT_ALL);
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
 
         //Deliver the notification
-        notificationManager.notify(NOTIFICATION_ID, builder.build());
+        notificationManager.notify(NOTIFICATION_ID, builder.build())
+    }
+
+    companion object {
+
+        private val NOTIFICATION_ID = 0
     }
 
 }
