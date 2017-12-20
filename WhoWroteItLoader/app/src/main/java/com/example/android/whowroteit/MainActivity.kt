@@ -23,8 +23,7 @@ import android.support.v4.content.Loader
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import android.widget.TextView
+import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONObject
 
 /**
@@ -32,12 +31,6 @@ import org.json.JSONObject
  * instead of an AsyncTask.
  */
 class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<String> {
-
-    // Variables for the search input field, and results TextViews
-    private var mBookInput: EditText? = null
-    private var mTitleText: TextView? = null
-    private var mAuthorText: TextView? = null
-
 
     /**
      * Initializes the activity.
@@ -47,11 +40,6 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<String> 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        // Initialize all the view variables
-        mBookInput = findViewById<View>(R.id.bookInput) as EditText
-        mTitleText = findViewById<View>(R.id.titleText) as TextView
-        mAuthorText = findViewById<View>(R.id.authorText) as TextView
 
         //Check if a Loader is running, if it is, reconnect to it
         if (supportLoaderManager.getLoader<Any>(0) != null) {
@@ -66,7 +54,7 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<String> 
      */
     fun searchBooks(view: View) {
         // Get the search string from the input field.
-        val queryString = mBookInput!!.text.toString()
+        val queryString = bookInput!!.text.toString()
 
         // Hide the keyboard when the button is pushed.
         val inputManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -79,19 +67,19 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<String> 
 
         // If the network is active and the search field is not empty,
         // add the search term to the arguments Bundle and start the loader.
-        if (networkInfo != null && networkInfo.isConnected && queryString.length != 0) {
-            mAuthorText!!.text = ""
-            mTitleText!!.setText(R.string.loading)
+        if (networkInfo != null && networkInfo.isConnected && queryString.isNotEmpty()) {
+            authorText!!.text = ""
+            titleText!!.setText(R.string.loading)
             val queryBundle = Bundle()
             queryBundle.putString("queryString", queryString)
             supportLoaderManager.restartLoader(0, queryBundle, this)
         } else {
-            if (queryString.length == 0) {
-                mAuthorText!!.text = ""
-                mTitleText!!.setText(R.string.no_search_term)
+            if (queryString.isEmpty()) {
+                authorText!!.text = ""
+                titleText!!.setText(R.string.no_search_term)
             } else {
-                mAuthorText!!.text = ""
-                mTitleText!!.setText(R.string.no_network)
+                authorText!!.text = ""
+                titleText!!.setText(R.string.no_network)
             }
         }// Otherwise update the TextView to tell the user there is no connection or no search term.
     }
@@ -152,19 +140,19 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<String> 
 
             // If both are found, display the result.
             if (title != null && authors != null) {
-                mTitleText!!.text = title
-                mAuthorText!!.text = authors
-                mBookInput!!.setText("")
+                titleText!!.text = title
+                authorText!!.text = authors
+                bookInput!!.setText("")
             } else {
                 // If none are found, update the UI to show failed results.
-                mTitleText!!.setText(R.string.no_results)
-                mAuthorText!!.text = ""
+                titleText!!.setText(R.string.no_results)
+                authorText!!.text = ""
             }
 
         } catch (e: Exception) {
             // If onPostExecute does not receive a proper JSON string, update the UI to show failed results.
-            mTitleText!!.setText(R.string.no_results)
-            mAuthorText!!.text = ""
+            titleText!!.setText(R.string.no_results)
+            authorText!!.text = ""
             e.printStackTrace()
         }
 
