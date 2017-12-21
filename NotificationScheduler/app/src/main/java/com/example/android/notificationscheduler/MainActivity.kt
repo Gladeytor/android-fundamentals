@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
 
 
         //Switch that toggles between periodic tasks and tasks with single deadlines
-        periodicSwitch!!.setOnCheckedChangeListener { compoundButton, isChecked ->
+        periodicSwitch!!.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 label.setText(R.string.periodic_interval)
             } else {
@@ -82,8 +82,6 @@ class MainActivity : AppCompatActivity() {
      */
     private fun scheduleJob() {
         mScheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
-
-        val networkOptions = findViewById<View>(R.id.networkOptions) as RadioGroup
 
         val selectedNetworkID = networkOptions.checkedRadioButtonId
 
