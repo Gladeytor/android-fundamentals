@@ -14,31 +14,20 @@
  * limitations under the License.
  */
 
-package com.android.example.wordlistsql;
+package com.android.example.wordlistsql
+
+import android.view.View
 
 /**
- * Data model for one word list item.
+ * Instantiated for the Edit and Delete buttons in WordListAdapter.
  */
-public class WordItem {
+open class MyButtonOnClickListener(internal var id: Int, internal var word: String?) : View.OnClickListener {
 
-    private int mId;
-    private String mWord;
-
-    public WordItem() {}
-
-    public int getId() {
-        return this.mId;
+    override fun onClick(v: View) {
+        // Implemented in WordListAdapter
     }
 
-    public String getWord() {
-        return this.mWord;
-    }
-
-    public void setId(int id) {
-        this.mId = id;
-    }
-
-    public void setWord(String word) {
-        this.mWord = word;
+    companion object {
+        private val TAG = View.OnClickListener::class.java.simpleName
     }
 }
