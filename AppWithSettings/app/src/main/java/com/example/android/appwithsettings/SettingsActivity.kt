@@ -14,28 +14,30 @@
  * limitations under the License.
  */
 
-package com.example.android.appwithsettings;
+package com.example.android.appwithsettings
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 
 /**
  * This Activity is based on the Empty Activity template.
  * It displays the fragment for the setting.
  */
-public class SettingsActivity extends AppCompatActivity {
-    public static final String KEY_PREF_EXAMPLE_SWITCH = "example_switch";
+class SettingsActivity : AppCompatActivity() {
 
     /**
      * Replaces the content with the fragment to display it.
      *
      * @param savedInstanceState
      */
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getSupportFragmentManager().beginTransaction()
-                .replace(android.R.id.content, new SettingsFragment())
-                .commit();
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        supportFragmentManager.beginTransaction()
+                .replace(android.R.id.content, SettingsFragment())
+                .commit()
+    }
+
+    companion object {
+        val KEY_PREF_EXAMPLE_SWITCH = "example_switch"
     }
 }

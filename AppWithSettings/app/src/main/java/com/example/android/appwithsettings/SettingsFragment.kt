@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package com.example.android.appwithsettings;
+package com.example.android.appwithsettings
 
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.preference.PreferenceFragmentCompat;
+import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.support.v7.preference.PreferenceFragmentCompat
 
 /**
- * A simple {@link Fragment} subclass.
+ * A simple [Fragment] subclass.
  */
-public class SettingsFragment extends PreferenceFragmentCompat {
+class SettingsFragment : PreferenceFragmentCompat() {
 
     /**
      * Creates the setting from the XML preferences file.
@@ -31,8 +31,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
      * @param savedInstanceState
      * @param rootKey This preference fragment is rooted at the PreferenceScreen with this key.
      */
-    @Override
-    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-        setPreferencesFromResource(R.xml.preferences, rootKey);
+    override fun onCreatePreferences(savedInstanceState: Bundle, rootKey: String) {
+        setPreferencesFromResource(R.xml.preferences, rootKey)
     }
 }
