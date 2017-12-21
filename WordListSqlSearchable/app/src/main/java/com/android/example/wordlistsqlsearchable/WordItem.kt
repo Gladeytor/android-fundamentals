@@ -14,31 +14,13 @@
  * limitations under the License.
  */
 
-package com.android.example.wordlistsqlsearchable;
+package com.android.example.wordlistsqlsearchable
 
 /**
  * Data model for one word list item.
  */
-public class WordItem {
+class WordItem {
 
-    private int mId;
-    private String mWord;
-
-    public WordItem() {}
-
-    public int getId() {
-        return this.mId;
-    }
-
-    public String getWord() {
-        return this.mWord;
-    }
-
-    public void setId(int id) {
-        this.mId = id;
-    }
-
-    public void setWord(String word) {
-        this.mWord = word;
-    }
+    var id: Int = 0
+    var word: String? = null
 }

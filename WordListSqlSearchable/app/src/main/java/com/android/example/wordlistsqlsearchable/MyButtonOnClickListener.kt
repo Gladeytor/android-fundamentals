@@ -14,26 +14,21 @@
  * limitations under the License.
  */
 
-package com.android.example.wordlistsqlsearchable;
+package com.android.example.wordlistsqlsearchable
 
-import android.view.View;
+import android.view.View
 
 /**
  * Instantiated for the Edit and Delete buttons in WordListAdapter.
  */
-public class MyButtonOnClickListener implements View.OnClickListener {
-    private static final String TAG = View.OnClickListener.class.getSimpleName();
+open class MyButtonOnClickListener(internal var id: Int, internal var word: String?) : View.OnClickListener {
 
-    int id;
-    String word;
-
-    public MyButtonOnClickListener(int id, String word) {
-        this.id = id;
-        this.word = word;
+    override fun onClick(v: View) {
+        // Implemented in WordListAdapter
     }
 
-    public void onClick(View v) {
-        // Implemented in WordListAdapter
+    companion object {
+        private val TAG = View.OnClickListener::class.java.simpleName
     }
 
 }
