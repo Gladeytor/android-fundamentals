@@ -49,7 +49,6 @@ class WordListAdapter(internal var mContext: Context, internal var mDB: WordList
 
     override fun onBindViewHolder(holder: WordViewHolder, position: Int) {
         // Keep a reference to the view holder for the click listener
-        val h = holder // needs to be final for use in callback
 
         val current = mDB.query(position)
         holder.wordItemView.text = current.word
@@ -63,7 +62,7 @@ class WordListAdapter(internal var mContext: Context, internal var mDB: WordList
                 val deleted = mDB.delete(id)
                 if (deleted >= 0) {
                     // Redisplay the view.
-                    notifyItemRemoved(h.adapterPosition)
+                    notifyItemRemoved(holder.adapterPosition)
                 }
             }
         })
@@ -76,7 +75,7 @@ class WordListAdapter(internal var mContext: Context, internal var mDB: WordList
                 val intent = Intent(mContext, EditWordActivity::class.java)
 
                 intent.putExtra(EXTRA_ID, id)
-                intent.putExtra(EXTRA_POSITION, h.adapterPosition)
+                intent.putExtra(EXTRA_POSITION, holder.adapterPosition)
                 intent.putExtra(EXTRA_WORD, id)
 
                 // Start an empty edit activity.

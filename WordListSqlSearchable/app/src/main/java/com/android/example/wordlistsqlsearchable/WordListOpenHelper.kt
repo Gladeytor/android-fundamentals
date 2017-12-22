@@ -47,7 +47,7 @@ class WordListOpenHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_
      *
      * @param db Database to fill with data since the member variables are not initialized yet.
      */
-    fun fillDatabaseWithData(db: SQLiteDatabase) {
+    private fun fillDatabaseWithData(db: SQLiteDatabase) {
 
         val words = arrayOf("Android", "Adapter", "ListView", "AsyncTask", "Android Studio", "SQLiteDatabase", "SQLOpenHelper", "Data model", "ViewHolder", "Android Performance", "OnClickListener")
 
@@ -207,7 +207,7 @@ class WordListOpenHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_
      * @param newVersion
      */
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        Log.w(WordListOpenHelper::class.java!!.getName(),
+        Log.w(WordListOpenHelper::class.java.name,
                 "Upgrading database from version " + oldVersion + " to "
                         + newVersion + ", which will destroy all old data")
         db.execSQL("DROP TABLE IF EXISTS " + WORD_LIST_TABLE)
@@ -216,7 +216,7 @@ class WordListOpenHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_
 
     companion object {
 
-        private val TAG = WordListOpenHelper::class.java!!.getSimpleName()
+        private val TAG = WordListOpenHelper::class.java.simpleName
 
         // Declaring all these as constants makes code a lot more readable and looking like SQL.
 

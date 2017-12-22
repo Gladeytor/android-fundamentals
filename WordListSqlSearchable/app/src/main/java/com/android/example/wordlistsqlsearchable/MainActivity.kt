@@ -55,8 +55,6 @@ class MainActivity : AppCompatActivity() {
         // Give the recycler view a default layout manager.
         recyclerview!!.layoutManager = LinearLayoutManager(this)
 
-        // Add a floating action click handler for creating new entries.
-        val fab = findViewById<View>(R.id.fab) as FloatingActionButton
         fab.setOnClickListener {
             // Starts empty edit activity.
             val intent = Intent(baseContext, EditWordActivity::class.java)
