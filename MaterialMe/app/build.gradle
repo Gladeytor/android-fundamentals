@@ -1,13 +1,15 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+    compileSdkVersion 27
 
     defaultConfig {
         applicationId "com.ngamolsky.android.materialme"
         minSdkVersion 15
-        targetSdkVersion 24
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
     }
@@ -19,7 +21,7 @@ android {
     }
 }
 
-ext.supportLibraryVersion = '24.2.0'
+ext.supportLibraryVersion = '27.0.2'
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -29,4 +31,8 @@ dependencies {
     compile "com.android.support:cardview-v7:$supportLibraryVersion"
     compile 'com.github.bumptech.glide:glide:3.5.2'
     compile "com.android.support:design:$supportLibraryVersion"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }
