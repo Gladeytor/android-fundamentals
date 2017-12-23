@@ -14,42 +14,38 @@
  * limitations under the License.
  */
 
-package com.example.android.DateTimePickers;
+package com.example.android.DateTimePickers
 
 
-import android.app.Dialog;
-import android.app.TimePickerDialog;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.text.format.DateFormat;
-import android.widget.TimePicker;
-
-import java.util.Calendar;
+import android.app.Dialog
+import android.app.TimePickerDialog
+import android.os.Bundle
+import android.support.v4.app.DialogFragment
+import android.support.v4.app.Fragment
+import android.text.format.DateFormat
+import android.widget.TimePicker
+import java.util.*
 
 /**
- * A simple {@link Fragment} subclass for a time picker.
+ * A simple [Fragment] subclass for a time picker.
  * Sets the current time for the picker using Calendar.
  */
-public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
+class TimePickerFragment : DialogFragment(), TimePickerDialog.OnTimeSetListener {
 
     /**
      * Creates the time picker dialog with the current time from Calendar.
      * @param savedInstanceState    Saved instance
      * @return TimePickerDialog     The time picker dialog
      */
-    @NonNull
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         // Use the current time as the default values for the picker.
-        final Calendar c = Calendar.getInstance();
-        int hour = c.get(Calendar.HOUR_OF_DAY);
-        int minute = c.get(Calendar.MINUTE);
+        val c = Calendar.getInstance()
+        val hour = c.get(Calendar.HOUR_OF_DAY)
+        val minute = c.get(Calendar.MINUTE)
 
         // Create a new instance of TimePickerDialog and return it.
-        return new TimePickerDialog(getActivity(), this, hour, minute,
-                DateFormat.is24HourFormat(getActivity()));
+        return TimePickerDialog(activity, this, hour, minute,
+                DateFormat.is24HourFormat(activity))
     }
 
     /**
@@ -59,10 +55,10 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
      * @param hourOfDay     The hour chosen
      * @param minute        The minute chosen
      */
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+    override fun onTimeSet(view: TimePicker, hourOfDay: Int, minute: Int) {
         // Set the activity to the Main Activity.
-        MainActivity activity = (MainActivity) getActivity();
+        val activity = activity as MainActivity?
         // Invoke Main Activity's processTimePickerResult() method.
-        activity.processTimePickerResult(hourOfDay, minute);
+        activity!!.processTimePickerResult(hourOfDay, minute)
     }
 }
