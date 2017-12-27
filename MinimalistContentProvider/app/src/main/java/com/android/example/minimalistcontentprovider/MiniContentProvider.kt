@@ -1,4 +1,5 @@
-package com.android.example.minimalistcontentprovider;
+package com.android.example.minimalistcontentprovider
+
 /*
  * Copyright (C) 2016 Google Inc.
  *
@@ -15,17 +16,14 @@ package com.android.example.minimalistcontentprovider;
  * limitations under the License.
  */
 
-import android.content.ContentProvider;
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.UriMatcher;
-import android.database.Cursor;
-import android.database.MatrixCursor;
-import android.net.Uri;
-import android.support.annotation.Nullable;
-import android.util.Log;
-
-import static java.lang.Integer.parseInt;
+import android.content.ContentProvider
+import android.content.ContentValues
+import android.content.UriMatcher
+import android.database.Cursor
+import android.database.MatrixCursor
+import android.net.Uri
+import android.util.Log
+import java.lang.Integer.parseInt
 
 /**
  * Created by vhaecky on 5/27/16.
@@ -38,41 +36,33 @@ import static java.lang.Integer.parseInt;
  * basic content provider, this class uses generated data stored in a list.
  */
 
-public class MiniContentProvider extends ContentProvider {
-
-    private static final String TAG = MiniContentProvider.class.getSimpleName();
-    public String[] mData;
-
-    // UriMatcher is a helper class for processing the accepted Uri schemes
-    // for this content provider.
-    // https://developer.android.com/reference/android/content/UriMatcher.html
-    private static UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+class MiniContentProvider : ContentProvider() {
+    var mData: Array<String>? = null
 
 
-    @Override
-    public boolean onCreate() {
+    override fun onCreate(): Boolean {
         // Set up the URI scheme for this content provider.
-        initializeUriMatching();
-        Context context = getContext();
-        mData = context.getResources().getStringArray(R.array.words);
-        return true;
+        initializeUriMatching()
+        val context = context
+        mData = context!!.resources.getStringArray(R.array.words)
+        return true
     }
 
     /**
      * Defines the accepted Uri schemes for this content provider.
      * Calls addURI()for all of the content URI patterns that the provide should recognize.
      */
-    private void initializeUriMatching(){
+    private fun initializeUriMatching() {
         // Matches a URI that references one word in the list by its index.
         // The # symbol matches a string of numeric characters of any length.
         // For this sample, this references the first, second, etc. words in the list.
         // For a database, this could be an ID.
         // Note that addURI expects separate authority and path arguments.
         // The last argument is the integer code to assign to this URI pattern.
-        sUriMatcher.addURI(Contract.AUTHORITY, Contract.CONTENT_PATH + "/#", 1);
+        sUriMatcher.addURI(Contract.AUTHORITY, Contract.CONTENT_PATH + "/#", 1)
 
         // Matches a URI that is just the authority + the path, triggering the return of all words.
-        sUriMatcher.addURI(Contract.AUTHORITY, Contract.CONTENT_PATH, 0);
+        sUriMatcher.addURI(Contract.AUTHORITY, Contract.CONTENT_PATH, 0)
     }
 
     /**
@@ -89,115 +79,114 @@ public class MiniContentProvider extends ContentProvider {
      * @param sortOrder Whether to sort, and if so, whether ascending or descending.
      * @return a Cursor of any kind with the response data inside.
      */
-    @Nullable
-    @Override
-    public Cursor query(Uri uri, String[] projection, String selection,
-                        String[] selectionArgs, String sortOrder) {
+    override fun query(uri: Uri, projection: Array<String>?, selection: String?,
+                       selectionArgs: Array<String>?, sortOrder: String?): Cursor? {
 
-        int id = -1;
+        var id = -1
 
         // Analyze the URI and build a query from the arguments.
         // This code changes depending on your backend.
         // This example uses the matcher to get the integer code for this URI pattern.
 
         // Determine which integer code corresponds to the URI, then switch on it.
-        switch (sUriMatcher.match(uri)) {
-            case 0:
+        when (sUriMatcher.match(uri)) {
+            0 -> {
                 // Matches URI to get all of the entries.
-                id = Contract.ALL_ITEMS;
+                id = Contract.ALL_ITEMS
                 // Look at the remaining arguments to see whether there are constraints.
                 // In this example, we only support getting a specific entry by id. Not full search.
                 // For a real-life app, you need error-catching code; here we assume that the
                 // value we need is actually in selectionArgs and valid.
-                if (selection != null){
-                    id = Integer.parseInt(selectionArgs[0]);
+                if (selection != null) {
+                    id = Integer.parseInt(selectionArgs!![0])
                 }
-                break;
+            }
 
-            case 1:
+            1 ->
                 // The URI ends in a numeric value, which represents an id.
                 // Parse the URI to extract the value of the last, numeric part of the path,
                 // and set the id to that value.
-                id = parseInt(uri.getLastPathSegment());
-                // With a database, you would then use this value and the path to build a query.
-                break;
+                id = parseInt(uri.lastPathSegment)
 
-            case UriMatcher.NO_MATCH:
+            UriMatcher.NO_MATCH -> {
                 // You should do some error handling here.
-                Log.d(TAG, "NO MATCH FOR THIS URI IN SCHEME.");
-                id = -1;
-                break;
-            default:
+                Log.d(TAG, "NO MATCH FOR THIS URI IN SCHEME.")
+                id = -1
+            }
+            else -> {
                 // You should do some error handling here.
-                Log.d(TAG, "INVALID URI - URI NOT RECOGNZED.");
-                id = -1;
-        }
-        Log.d(TAG, "query: " + id);
-        return populateCursor(id);
+                Log.d(TAG, "INVALID URI - URI NOT RECOGNZED.")
+                id = -1
+            }
+        }// With a database, you would then use this value and the path to build a query.
+        Log.d(TAG, "query: " + id)
+        return populateCursor(id)
     }
 
-    private Cursor populateCursor(int id) {
+    private fun populateCursor(id: Int): Cursor {
         // The query() method must return a cursor.
         // If you are not using data storage that returns a cursor,
         // you can use a simple MatrixCursor to hold the data to return.
         // https://developer.android.com/reference/android/database/MatrixCursor.html
-        MatrixCursor cursor = new MatrixCursor(new String[] { Contract.CONTENT_PATH });
+        val cursor = MatrixCursor(arrayOf(Contract.CONTENT_PATH))
 
         // If there is a valid query, execute it and add the result to the cursor.
         if (id == Contract.ALL_ITEMS) {
-            for (int i = 0; i < mData.length; i++) {
-                String word = mData[i];
-                cursor.addRow(new Object[]{word});
+            for (i in mData?.indices!!) {
+                val word = mData?.get(i)
+                cursor.addRow(arrayOf<Any>(word!!))
             }
         } else if (id >= 0) {
             // Execute the query to get the requested word.
-            String word = mData[id];
+            val word = mData?.get(id)
             // Add the result to the cursor.
-            cursor.addRow(new Object[]{word});
+            cursor.addRow(arrayOf<Any>(word!!))
         }
-        return cursor;
+        return cursor
     }
 
     // getType must be implemented.
-    @Nullable
-    @Override
-    public String getType(Uri uri) {
-        switch (sUriMatcher.match(uri)) {
-            case 0:
-                return Contract.MULTIPLE_RECORDS_MIME_TYPE;
-            case 1:
-                return Contract.SINGLE_RECORD_MIME_TYPE;
-            default:
+    override fun getType(uri: Uri): String? {
+        when (sUriMatcher.match(uri)) {
+            0 -> return Contract.MULTIPLE_RECORDS_MIME_TYPE
+            1 -> return Contract.SINGLE_RECORD_MIME_TYPE
+            else ->
                 // Alternatively, throw an exception.
-                return null;
+                return null
         }
     }
 
-    @Nullable
-    @Override
-    // Inserts the values into the provider.
-    // Returns a URI that points to the newly inserted record.
-    // We will implement this method in the next practical.
-    public Uri insert(Uri uri, ContentValues values) {
-        Log.e(TAG, "Not implemented: insert uri: " + uri.toString());
-        return null;
+    override// Inserts the values into the provider.
+            // Returns a URI that points to the newly inserted record.
+            // We will implement this method in the next practical.
+    fun insert(uri: Uri, values: ContentValues?): Uri? {
+        Log.e(TAG, "Not implemented: insert uri: " + uri.toString())
+        return null
     }
 
     // Deletes records(s) specified by either the URI or selection/selectionArgs combo.
     // Returns the number of records affected.
     // We will implement this method in the next practical.
-    @Override
-    public int delete(Uri uri, String selection, String[] selectionArgs) {
-        Log.e(TAG, "Not implemented: delete uri: " + uri.toString());
-        return 0;
+    override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int {
+        Log.e(TAG, "Not implemented: delete uri: " + uri.toString())
+        return 0
     }
 
     // Updates records(s) specified by either the URI or selection/selectionArgs combo.
     // Returns the number of records affected.
     // We will implement this method in the next practical.
-    @Override
-    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        Log.e(TAG, "Not implemented: update uri: " + uri.toString());
-        return 0;
+    override fun update(uri: Uri, values: ContentValues?, selection: String?, selectionArgs: Array<String>?): Int {
+        Log.e(TAG, "Not implemented: update uri: " + uri.toString())
+        return 0
+    }
+
+    companion object {
+
+        private val TAG = MiniContentProvider::class.java.simpleName
+
+        // UriMatcher is a helper class for processing the accepted Uri schemes
+        // for this content provider.
+        // https://developer.android.com/reference/android/content/UriMatcher.html
+        private val sUriMatcher = UriMatcher(UriMatcher.NO_MATCH)
     }
 }
